@@ -8,7 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   
-  <!-- ✅ Tambahkan Open Graph Meta Tag -->
+    <!-- ✅ Tambahkan Open Graph Meta Tag -->
     <meta property="og:title" content="Selamat Datang di Alam Mayang Pekanbaru" />
     <meta property="og:description" content="Taman Rekreasi Alam Mayang Pekanbaru" />
     <meta property="og:image" content="https://alammayang.blk-pariwisata.my.id//assets/image/cover.png" />
@@ -38,6 +38,8 @@
         <li><a href="{{ route('blog.index') }}" class="hover:text-green-700">Berita</a></li>
         <li><a href="{{ route('tentang') }}" class="hover:text-green-700">Tentang</a></li>
         <li><a href="{{ route('kontak') }}" class="hover:text-green-700">Kontak</a></li>
+        <li><a href="{{ route('login') }}" class="hover:text-green-700">Login</a></li>
+        <li><a href="{{ route('keranjang') }}" class="hover:text-green-700">Keranjang</a></li>
       </ul>
 
       <!-- Menu Mobile -->
@@ -56,6 +58,7 @@
       <li><a href="{{ route('blog.index') }}" class="hover:text-green-700">Berita</a></li>
       <li><a href="{{ route('tentang') }}" class="hover:text-green-700">Tentang</a></li>
       <li><a href="{{ route('kontak') }}" class="hover:text-green-700">Kontak</a></li>
+      <li><a href="/login" class="hover:text-green-700">Login</a></li>
     </ul>
   </div>
 
@@ -121,6 +124,28 @@
       </div>
     </div>
   </section>
+
+<section class="bg-white py-12">
+  <div class="container max-w-6xl mx-auto px-6">
+    <h2 class="text-2xl font-bold text-center mb-8">FAQ</h2>
+    <div class="space-y-4">
+      <?php for ($i = 0; $i < count($faqPost); $i++) { ?>
+        <div class="border rounded-lg overflow-hidden">
+          <!-- 🔽 INI TOMBOLNYA -->
+          <button class="faq-btn w-full flex justify-between items-center px-4 py-3 bg-green-500 text-white font-semibold">
+            <span><?php echo $faqPost[$i]['question'] ?></span>
+            <i class="ph ph-caret-down text-xl"></i>
+          </button>
+
+          <!-- 🔽 INI ISI YANG DITAMPILKAN SAAT TOMBOL DIKLIK -->
+          <div class="faq-content hidden px-4 py-3 bg-gray-100 text-gray-700">
+            <?php echo $faqPost[$i]['answer'] ?>
+          </div>
+        </div>
+      <?php } ?>
+    </div>
+  </div>
+</section>
 
   <!-- Footer -->
 <footer class="w-full bg-black text-gray-300 py-12">
@@ -195,6 +220,14 @@
     btn.addEventListener("click", () => {
       menu.classList.toggle("hidden");
     });
+
+    // FAQ Accordion
+    document.querySelectorAll(".faq-btn").forEach(btn => {
+      btn.addEventListener("click", () =>
+        btn.nextElementSibling.classList.toggle("hidden")
+      );
+    });
+
   </script>
    <!-- Floating WhatsApp dengan pesan otomatis -->
   <a href="https://wa.me/6281275725908?text=Halo%20Admin,%20saya%20ingin%20bertanya%20tentang%20wisata%20Alam%20Mayang" 

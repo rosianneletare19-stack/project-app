@@ -4,18 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
     use HasFactory;
-    protected $table= 'categorys';
-    protected $guarded= [];
+    protected $guarded = [];
 
-    public function blog(){
-        return $this->hasMany(RelationBlogCategory::class);
-    }
-
-    public function blogs(){
+    // Jika Anda ingin melihat blog mana saja yang dimiliki kategori ini
+    public function blogs(): HasMany 
+    {
+        // Relasi ini mencari 'category_id' di tabel 'blogs'
         return $this->hasMany(Blog::class);
     }
 }

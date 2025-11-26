@@ -3,7 +3,6 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\BlogResource\Pages;
-use App\Filament\Resources\BlogResource\RelationManagers;
 use App\Models\Blog;
 use App\Models\Category;
 use App\Models\User;
@@ -14,8 +13,6 @@ use Filament\Forms\Components\Select;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Forms\Components\FileUpload;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class BlogResource extends Resource
 {
@@ -28,19 +25,34 @@ class BlogResource extends Resource
         return $form
             ->schema([
                 FileUpload::make('image')
+                    ->label('Gambar')
+                    ->directory('blogs') // Direktori di storage/app/public/
+                    ->image()
                     ->required()
                     ->columnSpanFull(),
+
                 Forms\Components\TextInput::make('title')
+                    ->label('Judul')
                     ->required()
                     ->maxLength(255),
-                Select::make('category_id')->label('Kategori')
-                    ->options(Category::all()->pluck('name', 'id'))
+
+                // SOLUSI: Menggunakan relationship() yang memanfaatkan belongsTo di Model
+                Select::make('category_id')
+                    ->label('Kategori')
+                    // Relasi: 'category', Kolom Tampilan: 'category_name'
+                    ->relationship('category', 'category_name') 
                     ->required(),
+
                 Forms\Components\Textarea::make('description')
+                    ->label('Deskripsi')
                     ->required()
                     ->columnSpanFull(),
-                Select::make('user_id')->label('Author')
-                    ->options(User::all()->pluck('name', 'id'))
+
+                // SOLUSI: Menggunakan relationship() yang memanfaatkan belongsTo di Model
+                Select::make('user_id')
+                    ->label('Author')
+                    // Relasi: 'user', Kolom Tampilan: 'name'
+                    ->relationship('user', 'name')
                     ->required(),
             ]);
     }
@@ -50,33 +62,40 @@ class BlogResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('Image')
-                    ->searchable(),
+                    ->label('Gambar')
+                    // SOLUSI GAMBAR: Mengarahkan ke disk public
+                    ->disk('public'), 
+
                 Tables\Columns\TextColumn::make('title')
                     ->label('Judul')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('category.category.name')
+
+                // SOLUSI RELASI KATEGORI: Relasi tunggal 'category'
+                Tables\Columns\TextColumn::make('category.category_name') 
                     ->label('Kategori')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('user.user.name')
+
+                // SOLUSI RELASI AUTHOR: Relasi tunggal 'user'
+                Tables\Columns\TextColumn::make('user.name') 
                     ->label('Author')
-                    ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('description')
                     ->label('Deskripsi')
+                    ->limit(80)
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Dibuat')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Diperbarui')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
+                    ->sortable(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -90,9 +109,7 @@ class BlogResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
