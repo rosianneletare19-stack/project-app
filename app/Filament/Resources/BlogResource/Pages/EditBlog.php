@@ -61,6 +61,6 @@ class EditBlog extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
-    ];
+        ];
     }
 }

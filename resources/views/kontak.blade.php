@@ -24,6 +24,8 @@
         <li><a href="{{ route('blog.index') }}" class="hover:text-green-700">Berita</a></li>
         <li><a href="{{ route('tentang') }}" class="hover:text-green-700">Tentang</a></li>
         <li><a href="{{ route('kontak') }}" class="hover:text-green-700">Kontak</a></li>
+        <li><a href="{{ route('login') }}" class="hover:text-green-700">Login</a></li>
+        <li><a href="{{ route('keranjang') }}" class="hover:text-green-700">Keranjang</a></li>
       </ul>
 
       <!-- Menu Mobile -->
@@ -40,6 +42,8 @@
       <a href="{{ route('blog.index') }}" class="block hover:text-green-700">Berita</a>
       <a href="{{ route('tentang') }}" class="block hover:text-green-700">Tentang</a>
       <a href="{{ route('kontak') }}" class="block hover:text-green-700">Kontak</a>
+      <li><a href="{{ route('login') }}" class="hover:text-green-700">Login</a></li>
+      <li><a href="{{ route('keranjang') }}" class="hover:text-green-700">Keranjang</a></li>
     </div>
   </nav>
 

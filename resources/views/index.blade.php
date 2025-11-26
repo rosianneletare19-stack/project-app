@@ -126,13 +126,13 @@
   </section>
 
 <section class="bg-white py-12">
-  <div class="container max-w-6xl mx-auto px-6">
+  <div class="container max-w-5xl mx-auto px-6">
     <h2 class="text-2xl font-bold text-center mb-8">FAQ</h2>
     <div class="space-y-4">
       <?php for ($i = 0; $i < count($faqPost); $i++) { ?>
         <div class="border rounded-lg overflow-hidden">
           <!-- 🔽 INI TOMBOLNYA -->
-          <button class="faq-btn w-full flex justify-between items-center px-4 py-3 bg-green-500 text-white font-semibold">
+          <button class="faq-btn w-full flex justify-between items-center px-4 py-3 bg-green-900 text-white font-semibold">
             <span><?php echo $faqPost[$i]['question'] ?></span>
             <i class="ph ph-caret-down text-xl"></i>
           </button>

@@ -36,17 +36,9 @@ class BlogResource extends Resource
                     ->required()
                     ->maxLength(255),
 
-                // SOLUSI: Menggunakan relationship() yang memanfaatkan belongsTo di Model
-                Select::make('category_id')
-                    ->label('Kategori')
-                    // Relasi: 'category', Kolom Tampilan: 'category_name'
-                    ->relationship('category', 'category_name') 
+                Select::make('category_id')->label('Kategori')
+                    ->options(Category::all()->pluck('name', 'id'))
                     ->required(),
-
-                Forms\Components\Textarea::make('description')
-                    ->label('Deskripsi')
-                    ->required()
-                    ->columnSpanFull(),
 
                 // SOLUSI: Menggunakan relationship() yang memanfaatkan belongsTo di Model
                 Select::make('user_id')
@@ -71,7 +63,7 @@ class BlogResource extends Resource
                     ->searchable(),
 
                 // SOLUSI RELASI KATEGORI: Relasi tunggal 'category'
-                Tables\Columns\TextColumn::make('category.category_name') 
+                Tables\Columns\TextColumn::make('category.') 
                     ->label('Kategori')
                     ->sortable()
                     ->searchable(),
